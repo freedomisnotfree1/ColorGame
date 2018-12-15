@@ -1,40 +1,3 @@
-function runGame() {
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    var elemLeft = c.offsetLeft;
-    var elemTop = c.offsetTop;
-    var clickNum = 0;
-
-    c.addEventListener('click', function (event) {
-        clickNum++;
-
-        var x = event.pageX - elemLeft,
-            y = event.pageY - elemTop;
-
-        var clickedRow = Math.floor(y / CELL_HEIGHT);
-        var clickedCol = Math.floor(x / CELL_WIDTH);
-        drawClickedCell(ctx, clickedRow, clickedCol)
-
-    }, false);
-
-
-
-
-    // for (var currentLevel = 3; currentLevel < 37; currentLevel++) {
-
-    var currentLevel = 3;
-    ctx.clearRect(0, 0, c.width, c.height);
-    drawCellFrame(ctx);
-    var HighlightCellList = randomGenerateHighlightCellList(currentLevel);
-    drawHighlightCellList(ctx, HighlightCellList);
-    // drawHighlightCellList(HighlightCellList);
-
-
-
-
-    console.log("f")
-    // }
-}
 var COL_NUM = 6;
 var ROW_NUM = 6;
 
@@ -44,13 +7,56 @@ var CANVAS_HEIGHT = 600;
 var CELL_WIDTH = CANVAS_WIDTH / COL_NUM;
 var CELL_HEIGHT = CANVAS_HEIGHT / ROW_NUM;
 
+var playerClickedCell = [];
+var clickNum = 0;
+var elemLeft = 0;
+var elemTop = 0;
 
-function drawCellFrame(ctx) {
+
+
+async function runGame() {
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    elemLeft = c.offsetLeft;
+    elemTop = c.offsetTop;
+    var playerClickedCellRow = [];
+    var playerClickedCellCol = []
+    playerClickedCell.push(playerClickedCellRow);
+    playerClickedCell.push(playerClickedCellCol);
+
+
+    // for (var currentLevel = 3; currentLevel < 37; currentLevel++) {
+
+    var currentLevel = 1;
+    drawCellFrame(ctx, c.width, c.height);
+    var HighlightCellList = randomGenerateHighlightCellList(currentLevel);
+    drawHighlightCellList(ctx, HighlightCellList);
+    await countDown();
+    drawCellFrame(ctx, c.width, c.height);
+    displayText();
+    addClickListener(c, ctx);
+    await checkPalyerInput();
+
+
+    // drawHighlightCellList(HighlightCellList);
+
+
+
+
+    console.log("f")
+    // }
+}
+
+
+function drawCellFrame(ctx, cWidth, cHeight) {
     //ctx.moveTo(0, 0);
     //ctx.lineTo(200, 100);
 
     //var hightlightedCellCol = 3;
     //var hightlightedCellRow = 2;
+
+    ctx.clearRect(0, 0, cWidth, cHeight);
+
     for (var col = 0; col < COL_NUM; col++) {
         for (var row = 0; row < ROW_NUM; row++) {
             ctx.beginPath();
@@ -121,4 +127,53 @@ function drawClickedCell(ctx, row, col) {
     ctx.fillStyle = "green";
     ctx.fill();
     ctx.stroke();
+}
+
+function displayText() {
+    var element = document.getElementById("text");
+    element.innerHTML = "請點紅色格子的位置";
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function countDown() {
+    var element = document.getElementById("text");
+    element.innerHTML = "3";
+    await sleep(1000);
+    element.innerHTML = "2";
+    await sleep(1000);
+    element.innerHTML = "1";
+    await sleep(1000);
+}
+
+function addClickListener(canvas, ctx) {
+    canvas.addEventListener('click', function (event) {
+        clickNum++;
+
+        var x = event.pageX - elemLeft,
+            y = event.pageY - elemTop;
+
+        var clickedRow = Math.floor(y / CELL_HEIGHT);
+        var clickedCol = Math.floor(x / CELL_WIDTH);
+        drawClickedCell(ctx, clickedRow, clickedCol)
+        var cell = [clickedRow, clickedCol]
+        playerClickedCell[0].push(clickedRow);
+        playerClickedCell[1].push(clickedCol);
+    }, false);
+}
+
+async function checkPalyerInput() {
+    var waitingInput = true;
+    var checkedNum = 0;
+    while (waitingInput) {
+        await sleep(200);
+        if (clickNum > checkedNum) {
+            if () {
+
+            }
+            checkedNum++;
+        }
+    }
 }
