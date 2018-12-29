@@ -27,15 +27,15 @@ async function runGame() {
 
     // for (var currentLevel = 3; currentLevel < 37; currentLevel++) {
 
-    var currentLevel = 1;
+    var currentLevel = 2;
     drawCellFrame(ctx, c.width, c.height);
-    var HighlightCellList = randomGenerateHighlightCellList(currentLevel);
-    drawHighlightCellList(ctx, HighlightCellList);
+    var highlightCellList = randomGenerateHighlightCellList(currentLevel);
+    drawHighlightCellList(ctx, highlightCellList);
     await countDown();
     drawCellFrame(ctx, c.width, c.height);
     displayText();
     addClickListener(c, ctx);
-    await checkPalyerInput();
+    await checkPalyerInput(currentLevel, highlightCellList);
 
 
     // drawHighlightCellList(HighlightCellList);
@@ -164,16 +164,83 @@ function addClickListener(canvas, ctx) {
     }, false);
 }
 
-async function checkPalyerInput() {
-    var waitingInput = true;
+async function checkPalyerInput(level, highlightCellList) {
+    var isWaitingInput = true;
     var checkedNum = 0;
-    while (waitingInput) {
+    var highlightCellListForCompare = copy(highlightCellList);
+    while (isWaitingInput) {
         await sleep(200);
         if (clickNum > checkedNum) {
-            if () {
+            console.log("test");
+            if (ifClickedRightCell(
+                    highlightCellListForCompare,
+                    playerClickedCell[0][checkedNum],
+                    playerClickedCell[1][checkedNum])) {
 
+                checkedNum++;
+
+                removeParticularElement(
+                    highlightCellListForCompare,
+                    playerClickedCell[0][checkedNum],
+                    playerClickedCell[1][checkedNum]);
+                if (checkedNum >= level) {
+                    isWaitingInput = false;
+                    //  顯示 win this round
+                    console.log("YOU WIN!");
+
+                    // start nextlevel
+                }
+            } else {
+                isWaitingInput = false;
+
+                // 顯示ＧＡＭＥＯＶＥＲ
+                console.log("GAME OVER!");
+
+                // RESTART
             }
-            checkedNum++;
         }
     }
+}
+
+function ifClickedRightCell(highlightCellListForCompare, row, col) {
+    var isRight = false;
+    var length = highlightCellListForCompare.length;
+    for (var i = 0; i < length; i++) {
+
+        if (highlightCellListForCompare[0][i] === row &&
+            highlightCellListForCompare[1][i] === col) {
+            isRight = true;
+            break;
+        }
+    }
+
+    return isRight;
+}
+
+function removeParticularElement(highlightCellListForCompare, row, col) {
+    var index = -1;
+    for (var i = 0; i < highlightCellListForCompare[0].length; i++) {
+        if (highlightCellListForCompare[0][i] === row &&
+            highlightCellListForCompare[1][i] === col) {
+            index = i;
+            break;
+        }
+    }
+
+    if (index === -1) {
+        highlightCellListForCompare[0].splice(index, 1);
+        highlightCellListForCompare[1].splice(index, 1);
+    } else {
+        console.log("index !== -1");
+    }
+}
+
+function copy(o) {
+    var output, v, key;
+    output = Array.isArray(o) ? [] : {};
+    for (key in o) {
+        v = o[key];
+        output[key] = (typeof v === "object") ? copy(v) : v;
+    }
+    return output;
 }

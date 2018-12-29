@@ -4,13 +4,28 @@
 
     <meta charset="UTF-8">
     <script src="index.js"></script>
+    <style>
+    #textContainer{
+        position: absolute;
+        top: 150px;
+        left: 200px;
+        font-size: 30px;
+        background-color: aquamarine;
+        width: 250px;
+        height: 140px;
+    }
+    
+    </style>
 </header>
 
 <body onload="runGame();">
 
     <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">
         Your browser does not support the HTML5 canvas tag.</canvas>
-    <div id="text"></div>
+        <div id="textContainer">
+
+            <div id="text"></div>
+        </div>
 </body>
 
 </html>
