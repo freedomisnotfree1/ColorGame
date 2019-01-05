@@ -1,31 +1,81 @@
 <!DOCTYPE html>
 <html>
 <header>
-
+    <meta name="viewport" content="width=device-width, initial-scale=0.536, user-scalable=0">
     <meta charset="UTF-8">
     <script src="index.js"></script>
     <style>
-    #textContainer{
-        position: absolute;
-        top: 150px;
-        left: 200px;
-        font-size: 30px;
-        background-color: aquamarine;
-        width: 250px;
-        height: 140px;
-    }
-    
+        :root {
+            --cavas-width: 600px;
+            --textContainer-line-height: 36px;
+        }
+
+        #textContainer {
+            position: absolute;
+
+            margin-left: 50px;
+            margin-top: 322.5px;
+            top: 0px;
+            left: 0px;
+            font-size: 30px;
+            line-height: var(--textContainer-line-height);
+            background-color: rgba(252, 252, 252, 0.493);
+            width: var(--cavas-width);
+            height: var(--cavas-width);
+        }
+
+        #textMiddle {
+            position: absolute;
+            margin-top: calc(var(--cavas-width)/2 - var(--textContainer-line-height)/2);
+            text-align: center;
+            width: 100%;
+        }
+
+        #textDown {
+            position: absolute;
+            margin-top: 600px;
+            text-align: right;
+            width: 100%;
+        }
+
+        #container {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+        }
+
+        #myCanvas {
+            border: 1px solid #d3d3d3;
+            margin-left: 50px;
+            margin-top: 322.5px;
+        }
+
+        .nextLevelButton {
+            margin-top: 50px;
+            height: 50px;
+            width: 100px;
+        }
+
+        body {
+            padding-top: 0px;
+            padding-left: 0px;
+        }
     </style>
 </header>
 
 <body onload="runGame();">
 
-    <canvas id="myCanvas" width="600" height="600" style="border:1px solid #d3d3d3;">
-        Your browser does not support the HTML5 canvas tag.</canvas>
+    <div id="container">
+
+        <canvas id="myCanvas" width="600" height="600">
+            Your browser does not support the HTML5 canvas tag.</canvas>
         <div id="textContainer">
 
-            <div id="text"></div>
+            <div id="textMiddle"></div>
+            <div id="textDown" width="600" height="200"></div>
         </div>
+    </div>
 </body>
 
 </html>

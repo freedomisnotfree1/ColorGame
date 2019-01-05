@@ -16,6 +16,7 @@ var elemTop = 0;
 
 async function runGame() {
     var c = document.getElementById("myCanvas");
+    var containerElement = document.getElementById("container");
     var ctx = c.getContext("2d");
     elemLeft = c.offsetLeft;
     elemTop = c.offsetTop;
@@ -34,7 +35,7 @@ async function runGame() {
     await countDown();
     drawCellFrame(ctx, c.width, c.height);
     displayText();
-    addClickListener(c, ctx);
+    addClickListener(containerElement, ctx);
     await checkPalyerInput(currentLevel, highlightCellList);
 
 
@@ -130,7 +131,7 @@ function drawClickedCell(ctx, row, col) {
 }
 
 function displayText() {
-    var element = document.getElementById("text");
+    var element = document.getElementById("textDown");
     element.innerHTML = "請點紅色格子的位置";
 }
 
@@ -139,13 +140,14 @@ function sleep(ms) {
 }
 
 async function countDown() {
-    var element = document.getElementById("text");
+    var element = document.getElementById("textMiddle");
     element.innerHTML = "3";
     await sleep(1000);
     element.innerHTML = "2";
     await sleep(1000);
     element.innerHTML = "1";
     await sleep(1000);
+    element.innerHTML = "";
 }
 
 function addClickListener(canvas, ctx) {
@@ -187,20 +189,32 @@ async function checkPalyerInput(level, highlightCellList) {
                     isWaitingInput = false;
                     //  顯示 win this round
                     console.log("YOU WIN!");
+                    var element = document.getElementById("textMiddle");
+                    element.innerHTML = "YOU WIN!";
 
-                    // start nextlevel
+
+                    var element = document.getElementById("textDown");
+                    element.innerHTML = "<button class=\"nextLevelButton\" onclick=\"startNextlevel();\">Next</button>";
+                    
+
                 }
             } else {
                 isWaitingInput = false;
 
                 // 顯示ＧＡＭＥＯＶＥＲ
                 console.log("GAME OVER!");
-
+                var element = document.getElementById("textMiddle");
+                element.innerHTML = "GAME OVER!";
                 // RESTART
             }
         }
     }
 }
+
+function startNextlevel() {
+    alert("開始了");
+}
+
 
 function ifClickedRightCell(highlightCellListForCompare, row, col) {
     var isRight = false;
