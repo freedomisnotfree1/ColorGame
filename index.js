@@ -15,21 +15,8 @@ var elemTop = 0;
 
 
 async function runGame() {
-    /// get computed style for image
-    var img = document.getElementById('textContainer');
-    var cs = getComputedStyle(img);
-
-    /// these will return dimensions in *pixel* regardless of what
-    /// you originally specified for image:
-    var width = parseInt(cs.getPropertyValue('width'), 10);
-    var height = parseInt(cs.getPropertyValue('height'), 10);
-
-    /// now use this as width and height for your canvas element:
-    var canvas = document.getElementById('myCanvas');
-
-    canvas.width = width;
-    canvas.height = height;
-
+    resizeCanvas();
+    resizeMarginLeft();
 
 
     var c = document.getElementById("myCanvas");
@@ -63,6 +50,40 @@ async function runGame() {
 
     console.log("f")
     // }
+}
+
+function resizeCanvas() {
+
+    /// get computed style for image
+    var img = document.getElementById('textContainer');
+    var cs = getComputedStyle(img);
+
+    /// these will return dimensions in *pixel* regardless of what
+    /// you originally specified for image:
+    var width = parseInt(cs.getPropertyValue('width'), 10);
+    var height = parseInt(cs.getPropertyValue('height'), 10);
+
+    /// now use this as width and height for your canvas element:
+    var canvas = document.getElementById('myCanvas');
+
+    canvas.width = width;
+    canvas.height = height;
+}
+
+function resizeMarginLeft() {
+    var b_img = document.getElementById('container');
+    var b_cs = getComputedStyle(b_img);
+
+    var c_img = document.getElementById('myCanvas');
+    var c_cs = getComputedStyle(c_img);
+
+    var b_width = parseInt(b_cs.getPropertyValue('width'), 10);
+    var c_width = parseInt(c_cs.getPropertyValue('width'), 10);
+
+    /// now use this as width and height for your canvas element:
+    var canvas = document.getElementById('myCanvas');
+
+    canvas.style.marginLeft = ((b_width - c_width) / 2 )+ "px";
 }
 
 
