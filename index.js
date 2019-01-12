@@ -17,6 +17,7 @@ var elemTop = 0;
 async function runGame() {
     resizeCanvas();
     resizeMarginLeft();
+    resizeMarginTop();
 
 
     var c = document.getElementById("myCanvas");
@@ -87,6 +88,25 @@ function resizeMarginLeft() {
     var diff = ((containerWidth - canvasWidth) / 2) + "px";
     canvas.style.marginLeft = diff;
     textContainer.style.marginLeft = diff;
+}
+
+function resizeMarginTop() {
+    var tmp = document.getElementById('container');
+    var containerComputedStyle = getComputedStyle(tmp);
+
+    tmp = document.getElementById('myCanvas');
+    var canvasComputedStyle = getComputedStyle(tmp);
+
+    var containerHeight = parseInt(containerComputedStyle.getPropertyValue('height'), 10);
+    var canvasHeight = parseInt(canvasComputedStyle.getPropertyValue('height'), 10);
+
+
+    var canvas = document.getElementById('myCanvas');
+    var textContainer = document.getElementById('textContainer');
+
+    var diff = ((containerHeight - canvasHeight) / 2) + "px";
+    canvas.style.marginTop = diff;
+    textContainer.style.marginTop = diff;
 }
 
 
