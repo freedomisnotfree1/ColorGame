@@ -71,19 +71,22 @@ function resizeCanvas() {
 }
 
 function resizeMarginLeft() {
-    var b_img = document.getElementById('container');
-    var b_cs = getComputedStyle(b_img);
+    var tmp = document.getElementById('container');
+    var containerComputedStyle = getComputedStyle(tmp);
 
-    var c_img = document.getElementById('myCanvas');
-    var c_cs = getComputedStyle(c_img);
+    tmp = document.getElementById('myCanvas');
+    var canvasComputedStyle = getComputedStyle(tmp);
 
-    var b_width = parseInt(b_cs.getPropertyValue('width'), 10);
-    var c_width = parseInt(c_cs.getPropertyValue('width'), 10);
+    var containerWidth = parseInt(containerComputedStyle.getPropertyValue('width'), 10);
+    var canvasWidth = parseInt(canvasComputedStyle.getPropertyValue('width'), 10);
 
-    /// now use this as width and height for your canvas element:
+
     var canvas = document.getElementById('myCanvas');
+    var textContainer = document.getElementById('textContainer');
 
-    canvas.style.marginLeft = ((b_width - c_width) / 2 )+ "px";
+    var diff = ((containerWidth - canvasWidth) / 2) + "px";
+    canvas.style.marginLeft = diff;
+    textContainer.style.marginLeft = diff;
 }
 
 
