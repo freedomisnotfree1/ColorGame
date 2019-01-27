@@ -11,6 +11,7 @@ var playerClickedCell = [];
 var clickNum = 0;
 var elemLeft = 0;
 var elemTop = 0;
+var gameStatus = "";
 
 
 
@@ -26,32 +27,28 @@ async function runGame() {
     elemLeft = c.offsetLeft;
     elemTop = c.offsetTop;
     var playerClickedCellRow = [];
-    var playerClickedCellCol = []
+    var playerClickedCellCol = [];
     playerClickedCell.push(playerClickedCellRow);
     playerClickedCell.push(playerClickedCellCol);
 
 
-    // for (var currentLevel = 3; currentLevel < 37; currentLevel++) {
+    for (var currentLevel = 3; currentLevel < 37; currentLevel++) {
 
-    var currentLevel = 2;
-    drawCellFrame(ctx, c.width, c.height);
-    var highlightCellList = randomGenerateHighlightCellList(currentLevel);
-    drawHighlightCellList(ctx, highlightCellList);
-    await countDown();
-    drawCellFrame(ctx, c.width, c.height);
-    displayText();
-    addClickListener(containerElement, ctx);
-    await checkPalyerInput(currentLevel, highlightCellList);
-
-
-    // drawHighlightCellList(HighlightCellList);
+        var currentLevel = 2;
+        drawCellFrame(ctx, c.width, c.height);
+        var highlightCellList = randomGenerateHighlightCellList(currentLevel);
+        drawHighlightCellList(ctx, highlightCellList);
+        await countDown();
+        drawCellFrame(ctx, c.width, c.height);
+        displayText();
+        addClickListener(containerElement, ctx);
+        await checkPalyerInput(currentLevel, highlightCellList);
+        await finalization();
 
 
-
-
-    console.log("f")
-    // }
+    }
 }
+
 
 function resizeCanvas() {
 
@@ -304,4 +301,32 @@ function copy(o) {
         output[key] = (typeof v === "object") ? copy(v) : v;
     }
     return output;
+}
+
+
+async function finalization()
+{
+    //TODO: remove ClickListener()
+
+    //TODO: reinitailize playerClickedCell
+    // playerClickedCell =[];
+    // var playerClickedCellRow = [];
+    // var playerClickedCellCol = [];
+    // playerClickedCell.push(playerClickedCellRow);
+    // playerClickedCell.push(playerClickedCellCol);
+
+    //TODO: show gameover or youwin
+    //  顯示 win this round
+    // console.log("YOU WIN!");
+    // var element = document.getElementById("textMiddle");
+    // element.innerHTML = "YOU WIN!";
+    //
+    // var element = document.getElementById("textDown");
+    // element.innerHTML = "<button class=\"nextLevelButton\" onclick=\"startNextlevel();\">Next</button>";
+
+
+    //TODO: restartLevel()
+
+    //TODO: nextLevel()
+
 }
