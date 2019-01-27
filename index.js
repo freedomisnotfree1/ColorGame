@@ -235,38 +235,24 @@ async function checkPalyerInput(level, highlightCellList) {
         await sleep(200);
         if (clickNum > checkedNum) {
             console.log("test");
-            if (ifClickedRightCell(
-                    highlightCellListForCompare,
-                    playerClickedCell[0][checkedNum],
-                    playerClickedCell[1][checkedNum])) {
 
-                checkedNum++;
-
+            var result = ifClickedRightCell(
+                highlightCellListForCompare,
+                playerClickedCell[0][checkedNum],
+                playerClickedCell[1][checkedNum])
+            if (result) {
                 removeParticularElement(
                     highlightCellListForCompare,
                     playerClickedCell[0][checkedNum],
                     playerClickedCell[1][checkedNum]);
+
+                checkedNum++;
+
                 if (checkedNum >= level) {
                     isWaitingInput = false;
-                    //  顯示 win this round
-                    console.log("YOU WIN!");
-                    var element = document.getElementById("textMiddle");
-                    element.innerHTML = "YOU WIN!";
-
-
-                    var element = document.getElementById("textDown");
-                    element.innerHTML = "<button class=\"nextLevelButton\" onclick=\"startNextlevel();\">Next</button>";
-
-
                 }
             } else {
                 isWaitingInput = false;
-
-                // 顯示ＧＡＭＥＯＶＥＲ
-                console.log("GAME OVER!");
-                var element = document.getElementById("textMiddle");
-                element.innerHTML = "GAME OVER!";
-                // RESTART
             }
         }
     }
