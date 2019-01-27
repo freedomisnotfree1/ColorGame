@@ -1,0 +1,97 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <script>
+        main();
+
+
+        function main() {
+            var COL_NUM = 6;
+            var ROW_NUM = 6;
+            var resultList = [];
+            var randCellListList = [];
+            var randRowList = [];
+            var randColList = [];
+            for (var i = 0; i < 100; i++) {
+                var randRow = Math.round(Math.random() * (ROW_NUM - 1));
+                var randCol = Math.round(Math.random() * (COL_NUM - 1));
+                var randCellListRow = [];
+                var randCellListCol = [];
+                randCellListRow.push(randRow);
+                randCellListCol.push(randCol);
+                randRow = Math.round(Math.random() * (ROW_NUM - 1));
+                randCol = Math.round(Math.random() * (COL_NUM - 1));
+                randCellListRow.push(randRow);
+                randCellListCol.push(randCol);
+                var randhighlightCellList = [randCellListRow, randCellListCol];
+
+                var randRow2 = Math.round(Math.random() * (ROW_NUM - 1));
+                var randCol2 = Math.round(Math.random() * (COL_NUM - 1));
+
+
+                var result = ifClickedRightCell(randhighlightCellList, randRow2, randCol2);
+
+                randCellListList.push(randhighlightCellList);
+                randRowList.push(randRow2);
+                randColList.push(randCol2);
+                resultList.push(result);
+            }
+
+            for (var i = 0; i < 100; i++) {
+                var rcr1 = randCellListList[i][0][0];
+                var rcc1 = randCellListList[i][1][0];
+                var rcr2 = randCellListList[i][0][1];
+                var rcc2 = randCellListList[i][1][1];
+                var row = randRowList[i];
+                var col = randColList[i];
+                var result = resultList[i];
+
+                var text = '';
+                text += 'rcr1 = ' + rcr1 + ', ';
+                text += 'rcc1 = ' + rcc1 + ', ';
+                text += 'rcr2 = ' + rcr2 + ', ';
+                text += 'rcc2 = ' + rcc2 + ', ';
+                text += 'row = ' + row + ', ';
+                text += 'col = ' + col + ', ';
+                text += 'result = ' + result + '\n ';
+
+                if (result === false) {
+                    if (row === rcr1 &&
+                        col === rcc1
+                    ) {
+                        console.log('Error 1!');
+                    }
+                    if (row === rcr2 &&
+                        col === rcc2
+                    ) {
+                        console.log('Error 2!');
+                    }
+                }
+
+
+                console.log(text);
+            }
+        }
+
+        function ifClickedRightCell(highlightCellListForCompare, row, col) {
+            var isRight = false;
+            var length = highlightCellListForCompare.length;
+            for (var i = 0; i < length; i++) {
+
+                if (highlightCellListForCompare[0][i] === row &&
+                    highlightCellListForCompare[1][i] === col) {
+                    isRight = true;
+                    break;
+                }
+            }
+
+            return isRight;
+        }
+    </script>
+</body>
+
+</html>
