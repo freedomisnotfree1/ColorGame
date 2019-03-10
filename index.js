@@ -34,10 +34,11 @@ async function runGame() {
     playerClickedCell.push(playerClickedCellRow);
     playerClickedCell.push(playerClickedCellCol);
 
-
-    for (var currentLevel = 3; currentLevel < 37; currentLevel++) {
-
-        var currentLevel = 2;
+    
+    
+    var initailLevel = 2;
+    
+    for (var currentLevel = initailLevel; currentLevel < 37; currentLevel++) {
         drawCellFrame(ctx, c.width, c.height);
         var highlightCellList = randomGenerateHighlightCellList(currentLevel);
         drawHighlightCellList(ctx, highlightCellList);
@@ -49,6 +50,12 @@ async function runGame() {
         await finalization();
 
 
+        while (gameStatus === "waiting") {
+            await sleep(100);
+        }
+        if (gameStatus === "restart") {	
+            currentLevel = initailLevel - 1;
+        }
     }
 }
 
@@ -236,7 +243,6 @@ function addClickListener(canvas, ctx) {
     } else if (clickEventHandlerStatus === "disable") {
         clickEventHandlerStatus = "enable";
     }
-
 }
 
 async function checkPalyerInput(level, highlightCellList) {
@@ -334,18 +340,19 @@ async function finalization() {
     //TODO: show gameover or youwin
     if (isPlayerWin === true) {
         console.log("YOU WIN!");
+        
         var element = document.getElementById("textMiddle");
         element.innerHTML = "YOU WIN!";
 
         var element2 = document.getElementById("textDown");
-        element2.innerHTML = "<button class=\"nextLevelButton\" onclick=\"restartGame();\">Next</button>";
+        element2.innerHTML = "<button class=\"nextLevelButton\" onclick=\"nextLevel();\">Next</button>";
     } else if (isPlayerWin === false) {
-
+        
         var element = document.getElementById("textMiddle");
         element.innerHTML = "Oh No!";
 
         var element2 = document.getElementById("textDown");
-        element2.innerHTML = "<button class=\"nextLevelButton\" onclick=\"nextLevel();\">Restart</button>";
+        element2.innerHTML = "<button class=\"nextLevelButton\" onclick=\"restartGame();\">Restart</button>";
 
     }
 
