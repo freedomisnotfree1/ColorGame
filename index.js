@@ -11,7 +11,10 @@ var playerClickedCell = [];
 var clickNum = 0;
 var elemLeft = 0;
 var elemTop = 0;
+var isPlayerWin = "";
 var gameStatus = "";
+var clickEventHandlerStatus = "initial";
+
 
 
 
@@ -209,19 +212,31 @@ async function countDown() {
 }
 
 function addClickListener(canvas, ctx) {
-    canvas.addEventListener('click', function (event) {
-        clickNum++;
+    if (clickEventHandlerStatus === "initial") {
 
-        var x = event.pageX - elemLeft,
-            y = event.pageY - elemTop;
+        canvas.addEventListener('click', function (event) {
+            if (clickEventHandlerStatus === "enable") {
 
-        var clickedRow = Math.floor(y / CELL_HEIGHT);
-        var clickedCol = Math.floor(x / CELL_WIDTH);
-        drawClickedCell(ctx, clickedRow, clickedCol)
-        var cell = [clickedRow, clickedCol]
-        playerClickedCell[0].push(clickedRow);
-        playerClickedCell[1].push(clickedCol);
-    }, false);
+                clickNum++;
+
+                var x = event.pageX - elemLeft,
+                    y = event.pageY - elemTop;
+
+                var clickedRow = Math.floor(y / CELL_HEIGHT);
+                var clickedCol = Math.floor(x / CELL_WIDTH);
+                drawClickedCell(ctx, clickedRow, clickedCol)
+                var cell = [clickedRow, clickedCol]
+                playerClickedCell[0].push(clickedRow);
+                playerClickedCell[1].push(clickedCol);
+
+            }
+        }, false);
+        clickEventHandlerStatus = "enable";
+
+    } else if (clickEventHandlerStatus === "disable") {
+        clickEventHandlerStatus = "enable";
+    }
+
 }
 
 async function checkPalyerInput(level, highlightCellList) {
@@ -247,9 +262,11 @@ async function checkPalyerInput(level, highlightCellList) {
 
                 if (checkedNum >= level) {
                     isWaitingInput = false;
+                    isPlayerWin = true;
                 }
             } else {
                 isWaitingInput = false;
+                isPlayerWin = false;
             }
         }
     }
@@ -304,29 +321,43 @@ function copy(o) {
 }
 
 
-async function finalization()
-{
-    //TODO: remove ClickListener()
+async function finalization() {
+    clickEventHandlerStatus = "disable";
 
-    //TODO: reinitailize playerClickedCell
-    // playerClickedCell =[];
-    // var playerClickedCellRow = [];
-    // var playerClickedCellCol = [];
-    // playerClickedCell.push(playerClickedCellRow);
-    // playerClickedCell.push(playerClickedCellCol);
+    // Reinitailize playerClickedCell
+    playerClickedCell = [];
+    var playerClickedCellRow = [];
+    var playerClickedCellCol = [];
+    playerClickedCell.push(playerClickedCellRow);
+    playerClickedCell.push(playerClickedCellCol);
 
     //TODO: show gameover or youwin
-    //  顯示 win this round
-    // console.log("YOU WIN!");
-    // var element = document.getElementById("textMiddle");
-    // element.innerHTML = "YOU WIN!";
-    //
-    // var element = document.getElementById("textDown");
-    // element.innerHTML = "<button class=\"nextLevelButton\" onclick=\"startNextlevel();\">Next</button>";
+    if (isPlayerWin === true) {
+        console.log("YOU WIN!");
+        var element = document.getElementById("textMiddle");
+        element.innerHTML = "YOU WIN!";
 
+        var element2 = document.getElementById("textDown");
+        element2.innerHTML = "<button class=\"nextLevelButton\" onclick=\"restartGame();\">Next</button>";
+    } else if (isPlayerWin === false) {
 
-    //TODO: restartLevel()
+        var element = document.getElementById("textMiddle");
+        element.innerHTML = "Oh No!";
 
-    //TODO: nextLevel()
+        var element2 = document.getElementById("textDown");
+        element2.innerHTML = "<button class=\"nextLevelButton\" onclick=\"nextLevel();\">Restart</button>";
 
+    }
+
+    // misc.
+    gameStatus = "waiting";
+    clickNum = 0;
+}
+
+function restartGame() {
+    gameStatus = "restart";
+}
+
+function nextLevel() {
+    gameStatus = "nextLevel";
 }
