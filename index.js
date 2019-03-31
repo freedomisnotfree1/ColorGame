@@ -34,10 +34,10 @@ async function runGame() {
     playerClickedCell.push(playerClickedCellRow);
     playerClickedCell.push(playerClickedCellCol);
 
-    
-    
+
+
     var initailLevel = 2;
-    
+
     for (var currentLevel = initailLevel; currentLevel < 37; currentLevel++) {
         drawCellFrame(ctx, c.width, c.height);
         var highlightCellList = randomGenerateHighlightCellList(currentLevel);
@@ -53,9 +53,12 @@ async function runGame() {
         while (gameStatus === "waiting") {
             await sleep(100);
         }
-        if (gameStatus === "restart") {	
-            currentLevel = initailLevel - 1;
+        if (gameStatus === "restart") {
+            // currentLevel = initailLevel - 1;
+            currentLevel = currentLevel - 1;
         }
+        // currentLevel -= 1;
+        // currentLevel--;
     }
 }
 
@@ -285,7 +288,7 @@ function startNextlevel() {
 
 function ifClickedRightCell(highlightCellListForCompare, row, col) {
     var isRight = false;
-    var length = highlightCellListForCompare.length;
+    var length = highlightCellListForCompare[0].length;
     for (var i = 0; i < length; i++) {
 
         if (highlightCellListForCompare[0][i] === row &&
@@ -340,14 +343,14 @@ async function finalization() {
     //TODO: show gameover or youwin
     if (isPlayerWin === true) {
         console.log("YOU WIN!");
-        
+
         var element = document.getElementById("textMiddle");
         element.innerHTML = "YOU WIN!";
 
         var element2 = document.getElementById("textDown");
         element2.innerHTML = "<button class=\"nextLevelButton\" onclick=\"nextLevel();\">Next</button>";
     } else if (isPlayerWin === false) {
-        
+
         var element = document.getElementById("textMiddle");
         element.innerHTML = "Oh No!";
 
