@@ -311,7 +311,7 @@ function removeParticularElement(highlightCellListForCompare, row, col) {
         }
     }
 
-    if (index === -1) {
+    if (index != -1) {
         highlightCellListForCompare[0].splice(index, 1);
         highlightCellListForCompare[1].splice(index, 1);
     } else {
